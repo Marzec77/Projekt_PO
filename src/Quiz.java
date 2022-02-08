@@ -1,32 +1,36 @@
 
-
+import java.util.Random;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Quiz {
-    private Scanner scanner;
-    private Score currentPlayer;
     private List<Score> scores;
     private List<Question> questions;
+    private Score currentPlayer;
+    private Scanner scanner;
+    private final String QUESTIONS_FILE_PATH = "questions.txt";
+    private final String SCORES_FILE_PATH = "scores.txt";
 
     Quiz() {
+        currentPlayer = new Score();
 
         scanner = new Scanner(System.in);
-        currentPlayer = new Score();
+
     }
+
     public void start() {
-
-
+        // Sprawdzenie, czy lista zawiera pytania
+        if(questions.size() > 0) {
             // Utworzenie nowego wyniku dla aktualnego gracza
             currentPlayer = new Score();
             askForPlayerName();
             runQuiz();
             askForNewGame();
-
+        } else {
+            System.out.println("Nie udalo sie wczytac pytan z pliku!");
         }
-
+    }
 
     private void askForPlayerName() {
         // Aktualizacja nazwy gracza wedlug podanej przez niego wartosci
@@ -34,6 +38,7 @@ public class Quiz {
         String name = scanner.nextLine();
         currentPlayer.setPlayerName(name);
     }
+
     private void runQuiz() {
         System.out.println("Przed Toba " + questions.size() + " pytan. Powodzenia!");
         char userAnswer;
@@ -61,12 +66,15 @@ public class Quiz {
         printResult();
         printScoreTable();
     }
+
     private void saveScore() {
         scores.add(currentPlayer);
     }
+
     private void printResult() {
         System.out.println("Twoj wynik: " + currentPlayer.getPoints() + "/" + questions.size());
     }
+
     private void printScoreTable() {
         System.out.println("Ranking:");
         int rankingPlace = 1;
@@ -80,6 +88,7 @@ public class Quiz {
             rankingPlace++;
         }
     }
+
     private void askForNewGame() {
         // Wyswietlenie zapytania o ponowna gre oraz pobranie odpowiedzi
         // Jesli odpowiedz jest twierdzaca, to quiz zaczyna sie od poczatku
@@ -101,7 +110,6 @@ public class Quiz {
                 start();
             } else {
                 System.out.println("Dziekujemy za gre. Program zostanie wylaczony.");
-
                 System.exit(0);
             }
         } catch (Exception e) {
