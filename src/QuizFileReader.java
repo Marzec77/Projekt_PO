@@ -57,5 +57,39 @@ public class QuizFileReader {
         return questions;
     }
 
+    public List<Score> getScoresFromFile() {
+        // Tworzona jest pusta lista przechowujaca wyniki
+        List<Score> scores = new ArrayList<>();
 
+        try {
+            File file = new File(SCORES_FILE_PATH);
+            // Jesli szukany plik nie istnieje to zwraca sie pusta liste
+            if(!file.exists()) {
+                return scores;
+            }
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String[] splittedLine;
+            String line, playerName;
+            int points;
+
+            // Z kazdej lini pliku wczytywane sa dane wyniku oddzielone srednikiem (;)
+            while ((line = bufferedReader.readLine()) != null) {
+                splittedLine = line.split(";");
+                playerName = splittedLine[0];
+                points = Integer.parseInt(splittedLine[1]);
+                // Do listy dodawany jest nowy obiekt typu Score o parametrach odczytanych z pliku
+                scores.add(new Score(playerName, points));
+            }
+            bufferedReader.close();
+
+        } catch (IOException e) {
+            // W przypadku bledu wyswietlany sie komunikat
+            System.out.println("Nie udalo sie wczytac wynikow z pliku!");
+        }
+
+        // Zwracana jest lista zawierajaca odczytane z pliku wyniki
+        return scores;
+    }
 }
