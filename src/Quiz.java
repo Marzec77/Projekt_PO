@@ -55,8 +55,31 @@ public class Quiz {
             questionNumber++;
         }
 
+        // Po quizie wynik jest zapisywany w liscie wynikow,
+        // wyswietla sie wynik skonczonej gry oraz ranking
+        saveScore();
+        printResult();
+        printScoreTable();
     }
-
+    private void saveScore() {
+        scores.add(currentPlayer);
+    }
+    private void printResult() {
+        System.out.println("Twoj wynik: " + currentPlayer.getPoints() + "/" + questions.size());
+    }
+    private void printScoreTable() {
+        System.out.println("Ranking:");
+        int rankingPlace = 1;
+        // Lista wynikow jest sortowana i odwracana, aby uzyskac kolejnosc od najwyzszych do najnizszych wynikow
+        // Takie sortowanie jest mozliwe, poniewaz klasa Score implementuje inferfejs Comparable
+        Collections.sort(scores);
+        Collections.reverse(scores);
+        // Kazdy z zapisanych wynikow jest wyswietlany
+        for(Score score : scores) {
+            System.out.println(rankingPlace + ". " + score.getPlayerName() + " (" + score.getPoints() + " pkt)");
+            rankingPlace++;
+        }
+    }
     private void askForNewGame() {
         // Wyswietlenie zapytania o ponowna gre oraz pobranie odpowiedzi
         // Jesli odpowiedz jest twierdzaca, to quiz zaczyna sie od poczatku
