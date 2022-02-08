@@ -8,15 +8,19 @@ public class Quiz {
     private List<Score> scores;
     private List<Question> questions;
     private Score currentPlayer;
+    private QuizFileReader reader;
+    private QuizFileWriter writer;
     private Scanner scanner;
     private final String QUESTIONS_FILE_PATH = "questions.txt";
     private final String SCORES_FILE_PATH = "scores.txt";
 
     Quiz() {
         currentPlayer = new Score();
-
+        reader = new QuizFileReader(QUESTIONS_FILE_PATH, SCORES_FILE_PATH);
+        writer = new QuizFileWriter(SCORES_FILE_PATH);
         scanner = new Scanner(System.in);
-
+        questions = reader.getQuestionsFromFile();
+        scores = reader.getScoresFromFile();
     }
 
     public void start() {
@@ -110,6 +114,7 @@ public class Quiz {
                 start();
             } else {
                 System.out.println("Dziekujemy za gre. Program zostanie wylaczony.");
+                writer.saveScoresToFile(scores);
                 System.exit(0);
             }
         } catch (Exception e) {
