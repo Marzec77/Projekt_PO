@@ -16,10 +16,8 @@ public class Score implements Comparable<Score>{
         this.playerName = playerName;
         this.points = points;
     }
-
+    /** Funkcja porownujaca obiekty typu wedlug ich punktow, pozwala m.in. na latwe sortowanie list z wynikami*/
     public int compareTo(Score other) {
-        // Funkcja porownujaca obiekty typu wedlug ich punktow
-        // Pozwala m.in. na latwe sortowanie list z wynikami
         if(this.points > other.points) {
             return 1;
         } else if(this.points == other.points) {

@@ -22,11 +22,11 @@ public class Quiz {
         questions = reader.getQuestionsFromFile();
         scores = reader.getScoresFromFile();
     }
-
+    /** Sprawdzenie, czy lista zawiera pytania oraz utworzenie nowego wyniku dla aktualnego gracza */
     public void start() {
-        // Sprawdzenie, czy lista zawiera pytania
+
         if(questions.size() > 0) {
-            // Utworzenie nowego wyniku dla aktualnego gracza
+
             currentPlayer = new Score();
             askForPlayerName();
             runQuiz();
@@ -35,9 +35,9 @@ public class Quiz {
             System.out.println("Nie udalo sie wczytac pytan z pliku!");
         }
     }
-
+    /** Aktualizacja nazwy gracza wedlug podanej przez niego wartosci */
     private void askForPlayerName() {
-        // Aktualizacja nazwy gracza wedlug podanej przez niego wartosci
+
         System.out.println("Podaj swoje imie:");
         String name = scanner.nextLine();
         currentPlayer.setPlayerName(name);
@@ -48,24 +48,23 @@ public class Quiz {
         char userAnswer;
         int questionNumber = 1;
 
-        // Przemieszanie pytan z listy (ustawienie losowej kolejnosci)
+        /**Przemieszanie pytan z listy (ustawienie losowej kolejnosci)*/
         Collections.shuffle(questions, new Random());
 
-        // Kazde pytanie z listy jest wyswietlane i pobierana jest odpowiedz gracza
+        /**Kazde pytanie z listy jest wyswietlane i pobierana jest odpowiedz gracza */
         for(Question question : questions) {
             question.print(questionNumber);
             System.out.println("Podaj odpowedz (A/B/C/D):");
             userAnswer = scanner.nextLine().charAt(0);
 
-            // Jesli odpowiedz jest poprawna, gracz otrzymuje punkt
+            /** Jesli odpowiedz jest poprawna, gracz otrzymuje punkt */
             if (question.isAnswerCorrect(userAnswer)) {
                 currentPlayer.addPoint();
             }
             questionNumber++;
         }
 
-        // Po quizie wynik jest zapisywany w liscie wynikow,
-        // wyswietla sie wynik skonczonej gry oraz ranking
+        /**Po quizie wynik jest zapisywany w liscie wynikow, wyswietla sie wynik skonczonej gry oraz ranking */
         saveScore();
         printResult();
         printScoreTable();
@@ -78,15 +77,15 @@ public class Quiz {
     private void printResult() {
         System.out.println("Twoj wynik: " + currentPlayer.getPoints() + "/" + questions.size());
     }
-
+/** Lista wynikow jest sortowana i odwracana, aby uzyskac kolejnosc od najwyzszych do najnizszych wynikow. Takie sortowanie jest mozliwe, poniewaz klasa Score implementuje inferfejs Comparable */
     private void printScoreTable() {
         System.out.println("Ranking:");
         int rankingPlace = 1;
-        // Lista wynikow jest sortowana i odwracana, aby uzyskac kolejnosc od najwyzszych do najnizszych wynikow
-        // Takie sortowanie jest mozliwe, poniewaz klasa Score implementuje inferfejs Comparable
+
+
         Collections.sort(scores);
         Collections.reverse(scores);
-        // Kazdy z zapisanych wynikow jest wyswietlany
+        /** Kazdy z zapisanych wynikow jest wyswietlany */
         for(Score score : scores) {
             System.out.println(rankingPlace + ". " + score.getPlayerName() + " (" + score.getPoints() + " pkt)");
             rankingPlace++;

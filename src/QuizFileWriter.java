@@ -17,18 +17,17 @@ public class QuizFileWriter {
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             String fileContent = "";
-            // Dane kazdego wyniku sa dodawane jako nowa linia do ciagu znakow
-            // Przykladowo: Jan;10
+            /** Dane kazdego wyniku sa dodawane jako nowa linia do ciagu znakow. Przykladowo: Jan;10 */
             for(Score score : scores) {
                 fileContent += score.getPlayerName() + ";" + score.getPoints() + "\n";
             }
 
-            // Utworzony z wpisow o graczach ciag jest zapisywany do plikus
+            /** Utworzony z wpisow o graczach ciag jest zapisywany do pliku */
             bufferedWriter.write(fileContent);
             bufferedWriter.close();
         }
+        /** W przypadku bledu wyswietlany sie komunikat */
         catch (IOException e) {
-            // W przypadku bledu wyswietlany jest komunikat
             System.out.println("Nie udalo sie zapisac wynikow do pliku!");
         }
     }
